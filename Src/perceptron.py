@@ -93,7 +93,7 @@ if __name__ == '__main__':
     fig_ax3 = figure.add_subplot(gs[1, :])
     figure.show()
 
-    data = read_csv('../Data/lin_sep.csv', header=None)
+    data = read_csv('../Data/center.csv', header=None)
     prototypes = data[[0,1,2]].values
     synapses = np.array([.4,.2,.2])
 
