@@ -60,6 +60,7 @@ def update_class_figure(prototypes, figure):
     figure.cla()
     classifications = classify_prototypes(prototypes)
 
+    added_featur
     x_c0 = []
     x_c1 = []
     y_c0 = []
