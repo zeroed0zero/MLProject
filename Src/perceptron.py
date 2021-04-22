@@ -14,6 +14,9 @@ def perceptron(prototypes, synapses, targets, epochs, beta, activation_func):
                 have_changed = True
     return synapses
 
+class0_color_shape = 'r+'
+class1_color_shape = 'b+'
+
 def activation_func_0_1(v):
     if v < 0:
         return 0
@@ -21,7 +24,7 @@ def activation_func_0_1(v):
         return 1
 
 def get_separation_line(synapses):
-    return (synapses[0]/synapses[1], synapses[0]/synapses[2])
+    return ((synapses[0]/synapses[1], 0), (0, synapses[0]/synapses[2]))
 
 def classify_prototypes(prototypes):
     classifications = []
@@ -48,11 +51,11 @@ def update_line_figure(prototypes, figure, x, y):
     classified_0 = np.array(classified_0)
     classified_1 = np.array(classified_1)
     
-    figure.axline((x,0), (0,y), color='00')
+    figure.axline(x, y, color='00')
     if len(classified_0) != 0:
-        figure.plot(classified_0[:,0], classified_0[:,1], 'r+')
+        figure.plot(classified_0[:,0], classified_0[:,1], class0_color_shape)
     if len(classified_1) != 0:
-        figure.plot(classified_1[:,0], classified_1[:,1], 'b+')
+        figure.plot(classified_1[:,0], classified_1[:,1], class1_color_shape)
     figure.set_autoscalex_on(False)
     figure.set_autoscaley_on(False)
 
@@ -60,7 +63,6 @@ def update_class_figure(prototypes, figure):
     figure.cla()
     classifications = classify_prototypes(prototypes)
 
-    added_featur
     x_c0 = []
     x_c1 = []
     y_c0 = []
@@ -76,9 +78,9 @@ def update_class_figure(prototypes, figure):
             else: y_c1.append(0)
 
     if len(x_c0) != 0:
-        figure.plot(x_c0, y_c0, 'ro')
+        figure.plot(x_c0, y_c0, class0_color_shape)
     if len(x_c1) != 0:
-        figure.plot(x_c1, y_c1, 'bo')
+        figure.plot(x_c1, y_c1, class1_color_shape)
     figure.set_autoscalex_on(False)
     figure.set_autoscaley_on(False)
 
@@ -109,13 +111,13 @@ if __name__ == '__main__':
     c0 = prototypes[prototypes[:,2] == 'c0'][:,:2]
     c1 = prototypes[prototypes[:,2] == 'c1'][:,:2]
 
-    fig_ax1.plot(c0[:,0], c0[:,1], 'r+')
-    fig_ax1.plot(c1[:,0], c1[:,1], 'b+')
+    fig_ax1.plot(c0[:,0], c0[:,1], class0_color_shape)
+    fig_ax1.plot(c1[:,0], c1[:,1], class1_color_shape)
     fig_ax1.set_autoscalex_on(False)
     fig_ax1.set_autoscaley_on(False)
 
     x,y = get_separation_line(synapses)
-    fig_ax2.axline((x,0), (0,y), color='00')
+    fig_ax2.axline(x, y, color='00')
 
     update_line_figure(prototypes, fig_ax2, x, y)
     update_class_figure(prototypes, fig_ax3)
