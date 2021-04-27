@@ -117,7 +117,7 @@ def writeClassesToFile(classes, file_name):
                 proto = []
                 for k in range(len(classes[i][j])):
                     proto.append(classes[i][j][k])
-                proto.append('c' + str(i))
+                proto.append(i)
                 writer.writerow(proto)
 
 if __name__ == '__main__':
