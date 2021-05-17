@@ -54,16 +54,16 @@ if __name__ == '__main__':
         beta = get_beta()
 
         if data == 4 and is_training:
-            perceptron_flowers_training(data_files[data], getRandomArray(2, 4, 3), beta)
+            perceptron_flowers_training(data_files[data], np.array(getRandomArray(-0.5, 0.5, 3)), beta)
         elif data == 4 and not is_training:
-            perceptron_flowers_recall(data_files[data], getRandomArray(2, 4, 3), beta)
+            perceptron_flowers_recall(data_files[data], np.array(getRandomArray(-0.5, 0.5, 3)), beta)
         else:
             if is_2D: # 2D
-                if is_training: algorithm_train_2D[algorithm](data_files[data], getRandomArray(2, 4, 3), beta)
-                else: algorithm_recall_2D[algorithm](data_files[data], getRandomArray(2, 4, 3), beta)
+                if is_training: algorithm_train_2D[algorithm](data_files[data], np.array(getRandomArray(-0.5, 0.5, 3)), beta)
+                else: algorithm_recall_2D[algorithm](data_files[data], np.array(getRandomArray(-0.5, 0.5, 3)), beta)
             else: # 3D
-                if is_training: algorithm_train_3D[algorithm](data_files[data], getRandomArray(1, 2, 4), beta)
-                else: algorithm_recall_3D[algorithm](data_files[data], getRandomArray(2, 4, 4), beta)
+                if is_training: algorithm_train_3D[algorithm](data_files[data], np.array(getRandomArray(-0.5, 0.5, 4)), beta)
+                else: algorithm_recall_3D[algorithm](data_files[data], np.array(getRandomArray(-0.5, 0.5, 4)), beta)
 
         if input('Press anything to continue or x to stop: ') == 'x': break
         print('\n')

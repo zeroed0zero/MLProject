@@ -8,6 +8,7 @@ import numpy as np
 def perceptron(prototypes, synapses, targets, epochs, beta, activation_func):
     have_changed = True # synapses have changed
     while epochs != 0 and have_changed == True:
+        print(synapses)
         epochs -= 1
         have_changed = False
         for i in range(len(prototypes)):
@@ -19,6 +20,9 @@ def perceptron(prototypes, synapses, targets, epochs, beta, activation_func):
 
 def perceptron_outputs(prototypes, synapses):
     return [np.matmul(synapses, p) for p in prototypes]
+
+def perceptron_outputs2(prototypes, synapses, f):
+    return [f(np.matmul(synapses, p)) for p in prototypes]
 
 def perceptron_recall(prototypes, synapses, activation_func):
     return np.array([activation_func(np.matmul(synapses, p)) for p in prototypes])
@@ -107,16 +111,19 @@ def perceptron_train_2D(data_file, synapses, beta):
     prototypes_biased = np.hstack((bias, prototypes))
     plot_prototypes_2D(prototypes, fig_ax1)
     x,y = get_separation_line(synapses)
-    update_line_figure(prototypes, fig_ax2, x, y)
-    update_class_figure_2D(prototypes, fig_ax3, x, y)
+    classifications = perceptron_recall(prototypes_biased[:,:3], synapses, lambda v: 0 if v < 0 else 1)
+    update_line_figure(prototypes, classifications, fig_ax2, x, y)
+    update_class_figure_2D(prototypes, classifications, fig_ax3)
     old_synapses = []
     for i in range(1000):
         if np.array_equal(old_synapses, synapses): break
         old_synapses = synapses
         synapses = perceptron(prototypes_biased[:,:3], synapses, targets, 1, beta, lambda v: 0 if v < 0 else 1)
         x,y = get_separation_line(synapses)
-        update_line_figure(prototypes, fig_ax2, x, y)
-        update_class_figure_2D(prototypes, fig_ax3, x, y)
+        classifications = perceptron_recall(prototypes_biased[:,:3], synapses, lambda v: 0 if v < 0 else 1)
+        update_line_figure(prototypes, classifications, fig_ax2, x, y)
+        update_class_figure_2D(prototypes, classifications, fig_ax3)
+        print(classifications)
         plt.pause(0.7)
 
 def perceptron_flowers_training(data_file, synapses, beta):

@@ -14,24 +14,10 @@ def get_number_of_classes(prototypes):
 def get_separation_line(synapses):
     return ((synapses[0]/synapses[1], 0), (0, synapses[0]/synapses[2]))
 
-# If the prototype is above the line it is classified as class 1, otherwise as class 0
-def classify_prototypes_2D(prototypes, x, y):
-    classifications = []
-    for i in range(len(prototypes)):
-        v1 = (-x[0], y[1])
-        v2 = (-prototypes[i, 0], y[1] - prototypes[i,1])
-        cp = v1[0]*v2[1] - v1[1]*v2[0] # Cross product
-        if cp < 0:
-            classifications.append(0)
-        else:
-            classifications.append(1)
-    return classifications
-
-def update_line_figure(prototypes, figure, x, y):
+def update_line_figure(prototypes, classifications, figure, x, y):
     figure.cla()
     classified_0 = []
     classified_1 = []
-    classifications = classify_prototypes_2D(prototypes, x, y)
     for i in range(len(prototypes)):
         if classifications[i] == 0:
             classified_0.append([prototypes[i, 0], prototypes[i, 1]])
@@ -76,8 +62,7 @@ def recall_figure_2D(prototypes, predicted_t, figure):
         figure.plot(classified_incorrect[:,0], classified_incorrect[:,1], incorrect_color_shape)
 
 # Plot for the classification each prototype received
-def update_class_figure_2D(prototypes, figure, x, y):
-    classifications = classify_prototypes_2D(prototypes, x, y)
+def update_class_figure_2D(prototypes, classifications, figure):
     update_class_figure(prototypes, figure, classifications, 2)
 
 def plot_prototypes_2D(prototypes, figure):

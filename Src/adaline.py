@@ -6,10 +6,11 @@ from pandas import read_csv
 import numpy as np
 
 def mse(prototypes, synapses, targets):
-    return (1/len(prototypes)) * sum([(targets[i] - np.matmul(synapses, prototypes[i]))**2 for i in range(len(prototypes))])
+    return 0.5 * sum([(targets[i] - np.matmul(synapses, prototypes[i]))**2 for i in range(len(prototypes))])
 
 def adaline(prototypes, synapses, targets, epochs, beta, mse_limit):
     while epochs != 0 and mse(prototypes, synapses, targets) > mse_limit:
+        print(mse(prototypes, synapses, targets))
         epochs -= 1
         for i in range(len(prototypes)):
             output = np.matmul(synapses, prototypes[i])
@@ -37,7 +38,7 @@ def adaline_train_2D(data_file, synapses, beta):
     update_line_figure(prototypes, fig_ax2, x, y)
     update_class_figure_2D(prototypes, fig_ax3, x, y)
     old_synapses = []
-    for i in range(100):
+    for i in range(1000):
         if np.array_equal(old_synapses, synapses): break
         old_synapses = synapses
         synapses = adaline(prototypes_biased[:,:3], synapses, targets, 1, beta, .1)
