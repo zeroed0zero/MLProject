@@ -1,4 +1,5 @@
-from common import *
+from Src.common import *
+from Data.random_models import getRandomArray
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 from pandas import read_csv
@@ -9,7 +10,6 @@ def perceptron(prototypes, synapses, targets, epochs, beta, activation_func):
     while epochs != 0 and have_changed == True:
         epochs -= 1
         have_changed = False
-
         for i in range(len(prototypes)):
             old_synapses = np.copy(synapses)
             output = activation_func(np.matmul(synapses, prototypes[i]))
@@ -24,7 +24,7 @@ def perceptron_outputs(prototypes, synapses):
 def perceptron_recall(prototypes, synapses, activation_func):
     return np.array([activation_func(np.matmul(synapses, p)) for p in prototypes])
 
-def perceptron_train_3D(data_file):
+def perceptron_train_3D(data_file, synapses, beta):
     figure = plt.figure()
     gs = figure.add_gridspec(2, 2)
     fig_ax1 = figure.add_subplot(gs[0, 0], projection='3d')
@@ -36,11 +36,9 @@ def perceptron_train_3D(data_file):
 
     data = read_csv(data_file, header=None)
     prototypes = data[[0,1,2,3]].values
-    synapses = np.array([.1,.01,.01,.01])
 
     targets = prototypes[:,3]
 
-    beta = 0.0001
     rows, _ = prototypes.shape
     bias = np.ones((rows, 1)) * -1
     prototypes_biased = np.hstack((bias, prototypes))
@@ -63,10 +61,10 @@ def perceptron_train_3D(data_file):
         plt.pause(0.7)
     
 
-def perceptron_recall_3D(data_file):
+def perceptron_recall_3D(data_file, synapses, beta):
     return 1
 
-def perceptron_recall_2D(data_file):
+def perceptron_recall_2D(data_file, synapses, beta):
     figure = plt.figure()
     gs = figure.add_gridspec(1, 1)
     axes = figure.add_subplot(gs[:,:])
@@ -75,9 +73,7 @@ def perceptron_recall_2D(data_file):
     figure.show()
     data = read_csv(data_file, header=None)
     prototypes = data[[0,1,2]].values
-    synapses = np.array([.4,.2,.2])
     targets = prototypes[:,2]
-    beta = 0.0001
     rows, _ = prototypes.shape
     bias = np.ones((rows, 1)) * -1
     prototypes_biased = np.hstack((bias, prototypes))
@@ -94,7 +90,7 @@ def perceptron_recall_2D(data_file):
     recall_figure_2D(prototypes, predicted_t, axes)
     axes.axline(x, y, color='00')
 
-def perceptron_train_2D(data_file):
+def perceptron_train_2D(data_file, synapses, beta):
     figure = plt.figure()
     gs = figure.add_gridspec(2, 2)
     fig_ax1 = figure.add_subplot(gs[0, 0])
@@ -106,9 +102,7 @@ def perceptron_train_2D(data_file):
 
     data = read_csv(data_file, header=None)
     prototypes = data[[0,1,2]].values
-    synapses = np.array([.4,.2,.2])
     targets = prototypes[:,2]
-    beta = 0.0001
     rows, _ = prototypes.shape
     bias = np.ones((rows, 1)) * -1
     prototypes_biased = np.hstack((bias, prototypes))
@@ -126,7 +120,7 @@ def perceptron_train_2D(data_file):
         update_class_figure_2D(prototypes, fig_ax3, x, y)
         plt.pause(0.7)
 
-def perceptron_flowers_training(data_file):
+def perceptron_flowers_training(data_file, synapses, beta):
     figure = plt.figure()
     gs = figure.add_gridspec(2, 2)
     fig_ax1 = figure.add_subplot(gs[0, 0])
@@ -139,7 +133,6 @@ def perceptron_flowers_training(data_file):
     
     data = read_csv(data_file, header=None)
     prototypes = data[[0,2,4]].values
-    synapses = np.array([.4,.2,.2])
     for i in range(len(prototypes)):
         if prototypes[i][2] == 'Iris-setosa': prototypes[i][2] = 1
         elif prototypes[i][2] == 'Iris-versicolor': prototypes[i][2] = 2
@@ -149,7 +142,6 @@ def perceptron_flowers_training(data_file):
     prototypes_0_2 = prototypes.copy()
     for i in range(len(prototypes_0_2)): prototypes_0_2[i][2] -= 1
     targets = prototypes[:,2]
-    beta = 0.00001
     rows, _ = prototypes.shape
     bias = np.ones((rows, 1)) * -1
     prototypes_biased = np.hstack((bias, prototypes))[:,:3]
@@ -184,7 +176,7 @@ def perceptron_flowers_training(data_file):
         update_class_figure(prototypes_0_2, fig_ax3, pred_classes, 2)
         plt.pause(.000001)
 
-def perceptron_flowers_recall(data_file):
+def perceptron_flowers_recall(data_file, synapses, beta):
     figure = plt.figure()
     gs = figure.add_gridspec(1, 1)
     fig_ax1 = figure.add_subplot(gs[:,:])
@@ -194,13 +186,11 @@ def perceptron_flowers_recall(data_file):
     
     data = read_csv(data_file, header=None)
     prototypes = data[[0,2,4]].values
-    synapses = np.array([.4,.2,.2])
     for i in range(len(prototypes)):
         if prototypes[i][2] == 'Iris-setosa': prototypes[i][2] = 1
         elif prototypes[i][2] == 'Iris-versicolor': prototypes[i][2] = 2
         elif prototypes[i][2] == 'Iris-virginica': prototypes[i][2] = 3
     targets = prototypes[:,2]
-    beta = 0.00001
     rows, _ = prototypes.shape
     bias = np.ones((rows, 1)) * -1
     prototypes_biased = np.hstack((bias, prototypes))[:,:3]
