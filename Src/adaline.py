@@ -11,10 +11,9 @@ def mse(prototypes, synapses, targets):
 def adaline(prototypes, synapses, targets, epochs, beta, mse_limit):
     while epochs != 0 and mse(prototypes, synapses, targets) > mse_limit:
         epochs -= 1
-        old_synapses = np.copy(synapses)
         for i in range(len(prototypes)):
             output = np.matmul(synapses, prototypes[i])
-            synapses = old_synapses + (beta * (targets[i] - output)) * prototypes[i]
+            synapses = synapses + (beta * (targets[i] - output)) * prototypes[i]
     return synapses
 
 def adaline_train_2D(data_file, synapses, beta):

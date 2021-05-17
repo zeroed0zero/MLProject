@@ -11,10 +11,9 @@ def perceptron(prototypes, synapses, targets, epochs, beta, activation_func):
         epochs -= 1
         have_changed = False
         for i in range(len(prototypes)):
-            old_synapses = np.copy(synapses)
             output = activation_func(np.matmul(synapses, prototypes[i]))
             if not np.array_equal(output, targets[i]):
-                synapses = old_synapses + (beta * (targets[i] - output)) * prototypes[i]
+                synapses = synapses + (beta * (targets[i] - output)) * prototypes[i]
                 have_changed = True
     return synapses
 
