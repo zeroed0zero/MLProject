@@ -4,9 +4,6 @@ import matplotlib.pyplot as plt
 from pandas import read_csv
 import numpy as np
 
-def mse(prototypes, synapses, targets):
-    return 0.5 * sum([(targets[i] - np.matmul(synapses, prototypes[i]))**2 for i in range(len(prototypes))])
-
 def adaline(prototypes, synapses, targets, epochs, beta, mse_limit):
     while epochs != 0 and mse(prototypes, synapses, targets) > mse_limit:
         epochs -= 1
@@ -43,7 +40,6 @@ def adaline_train_2D(data_file, synapses, beta, epochs):
 
     epoch_values = []
     mse_values = []
-
     for i in range(epochs):
         epoch_values.append(i)
         mse_values.append(mse(prototypes, synapses, targets))
@@ -68,3 +64,14 @@ def adaline_train_2D(data_file, synapses, beta, epochs):
     #ada.fit(X, y)
     #plot_decision_regions(X, y, clf=ada)
     #plt.show() 
+
+def adaline_recall_2D(data_file, synapses, beta, epochs):
+    print("Not implemented yet\n")
+def adaline_train_3D(data_file, synapses, beta, epochs):
+    print("Not implemented yet\n")
+def adaline_recall_3D(data_file, synapses, beta, epochs):
+    print("Not implemented yet\n")
+def adaline_flowers_train(data_file, synapses, beta, epochs):
+    print("Not implemented yet\n")
+def adaline_flowers_recall(data_file, synapses, beta, epochs):
+    print("Not implemented yet\n")

@@ -1,4 +1,5 @@
 from Src.common import *
+from Data.random_models import getRandomArray
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 from pandas import read_csv
@@ -22,7 +23,7 @@ def perceptron_outputs(prototypes, synapses):
 def perceptron_outputs_act(prototypes, synapses, activation_func):
     return np.array([activation_func(np.matmul(synapses, p)) for p in prototypes])
 
-def perceptron_train_2D(train_data_file, synapses, beta, epochs):
+def perceptron_train_2D(train_data_file, beta, epochs):
     figure = plt.figure()
     gs = figure.add_gridspec(2, 2)
     fig_ax1 = figure.add_subplot(gs[0, 0])
@@ -32,27 +33,28 @@ def perceptron_train_2D(train_data_file, synapses, beta, epochs):
     fig_ax3 = figure.add_subplot(gs[1, :])
     figure.show()
 
-    train_data = read_csv(train_data_file, header=None)
-    prototypes = train_data[[0,1,2]].values
-    targets = prototypes[:,2]
+    synapses = getRandomArray(-0.5, 0.5, 3)
+    train_data = read_csv(train_data_file, header=None)[[0,1,2]].values
+    prototypes = train_data[:,:2]
+    targets = train_data[:,2]
     rows, _ = prototypes.shape
     bias = np.ones((rows, 1)) * -1
-    prototypes_biased = np.hstack((bias, prototypes))[:,:3]
+    prototypes_biased = np.hstack((bias, prototypes))
 
-    plot_prototypes_2D(prototypes, fig_ax1)
+    plot_prototypes_2D(train_data, fig_ax1)
 
     old_synapses = []
     for i in range(epochs):
         x,y = get_separation_line(synapses)
         classifications = perceptron_outputs_act(prototypes_biased, synapses, lambda v: 0 if v < 0 else 1)
-        update_line_figure(prototypes, classifications, fig_ax2, x, y)
-        update_class_figure_2D(prototypes, classifications, fig_ax3)
+        update_line_figure(train_data, classifications, fig_ax2, x, y)
+        update_class_figure_2D(train_data, classifications, fig_ax3)
         if np.array_equal(old_synapses, synapses): break
         old_synapses = synapses
         synapses = perceptron(prototypes_biased, synapses, targets, 1, beta, lambda v: 0 if v < 0 else 1)
         plt.pause(0.7)
 
-def perceptron_recall_2D(train_data_file, recall_data_file, synapses, beta, epochs):
+def perceptron_recall_2D(train_data_file, recall_data_file, beta, epochs):
     figure = plt.figure()
     gs = figure.add_gridspec(1, 1)
     axes = figure.add_subplot(gs[:,:])
@@ -60,6 +62,7 @@ def perceptron_recall_2D(train_data_file, recall_data_file, synapses, beta, epoc
                          mpatches.Patch(color='red', label='Incorrect predictions')])
     figure.show()
 
+    synapses = getRandomArray(-0.5, 0.5, 3)
     train_data = read_csv(train_data_file, header=None)
     prototypes = train_data[[0,1,2]].values
     targets = prototypes[:,2]
@@ -87,7 +90,7 @@ def perceptron_recall_2D(train_data_file, recall_data_file, synapses, beta, epoc
     axes.set_autoscalex_on(False)
     axes.set_autoscaley_on(False)
 
-def perceptron_train_3D(train_data_file, synapses, beta, epochs):
+def perceptron_train_3D(train_data_file, beta, epochs):
     figure = plt.figure()
     gs = figure.add_gridspec(2, 2)
     fig_ax1 = figure.add_subplot(gs[0, 0], projection='3d')
@@ -97,6 +100,7 @@ def perceptron_train_3D(train_data_file, synapses, beta, epochs):
     fig_ax3 = figure.add_subplot(gs[1, :])
     figure.show()
 
+    synapses = getRandomArray(-0.5, 0.5, 4)
     train_data = read_csv(train_data_file, header=None)
     prototypes = train_data[[0,1,2,3]].values
     targets = prototypes[:,3]
@@ -117,7 +121,7 @@ def perceptron_train_3D(train_data_file, synapses, beta, epochs):
         synapses = perceptron(prototypes_biased, synapses, targets, 1, beta, lambda v: 0 if v < 0 else 1)
         plt.pause(0.7)
 
-def perceptron_recall_3D(train_data_file, recall_data_file, synapses, beta, epochs):
+def perceptron_recall_3D(train_data_file, recall_data_file, beta, epochs):
     figure = plt.figure()
     gs = figure.add_gridspec(1, 1)
     axes = figure.add_subplot(gs[:,:], projection='3d')
@@ -125,6 +129,7 @@ def perceptron_recall_3D(train_data_file, recall_data_file, synapses, beta, epoc
                          mpatches.Patch(color='red', label='Incorrect predictions')])
     figure.show()
 
+    synapses = getRandomArray(-0.5, 0.5, 4)
     train_data = read_csv(train_data_file, header=None)
     prototypes = train_data[[0,1,2,3]].values
     targets = prototypes[:,3]
@@ -166,7 +171,7 @@ def perceptron_recall_3D(train_data_file, recall_data_file, synapses, beta, epoc
     z = (-normal[0] * xx - normal[1] * yy - d) * 1. / normal[2]
     axes.plot_surface(xx, yy, z, alpha=0.2)
 
-def perceptron_flowers_training(train_data_file, synapses, beta, epochs):
+def perceptron_flowers_train(train_data_file, beta, epochs):
     figure = plt.figure()
     gs = figure.add_gridspec(2, 2)
     fig_ax1 = figure.add_subplot(gs[0, 0])
@@ -177,6 +182,7 @@ def perceptron_flowers_training(train_data_file, synapses, beta, epochs):
     fig_ax3 = figure.add_subplot(gs[1, :])
     figure.show()
     
+    synapses = getRandomArray(-0.5, 0.5, 3)
     train_data = read_csv(train_data_file, header=None)
     prototypes = train_data[[0,2,4]].values
     for i in range(len(prototypes)):
@@ -222,7 +228,7 @@ def perceptron_flowers_training(train_data_file, synapses, beta, epochs):
         update_class_figure(prototypes_0_2, fig_ax3, pred_classes, 2)
         plt.pause(.000001)
 
-def perceptron_flowers_recall(train_data_file, synapses, beta, epochs):
+def perceptron_flowers_recall(train_data_file, beta, epochs):
     figure = plt.figure()
     gs = figure.add_gridspec(1, 1)
     fig_ax1 = figure.add_subplot(gs[:,:])
@@ -230,6 +236,7 @@ def perceptron_flowers_recall(train_data_file, synapses, beta, epochs):
                             mpatches.Patch(color='red', label='Incorrect predictions')])
     figure.show()
     
+    synapses = getRandomArray(-0.5, 0.5, 3)
     train_data = read_csv(train_data_file, header=None)
     prototypes = train_data[[0,2,4]].values
     for i in range(len(prototypes)):

@@ -1,10 +1,10 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-class0_color_shape = 'r+'
-class1_color_shape = 'b+'
-class2_color_shape = 'g+'
-class_colors_shapes = ['r+', 'b+', 'g+']
+class0_color_shape = 'r.'
+class1_color_shape = 'b.'
+class2_color_shape = 'g.'
+class_colors_shapes = ['r.', 'b.', 'g.']
 correct_color_shape = 'g.'
 incorrect_color_shape = 'r.'
 
@@ -15,7 +15,6 @@ def get_separation_line(synapses):
     return ((synapses[0]/synapses[1], 0), (0, synapses[0]/synapses[2]))
 
 def update_line_figure(prototypes, classifications, figure, x, y):
-    print(x, y)
     figure.cla()
     classified_0 = []
     classified_1 = []
@@ -174,3 +173,6 @@ def recall_figure_3D(prototypes, predicted_t, figure):
         figure.plot(classified_correct[:,0], classified_correct[:,1], classified_correct[:,2], correct_color_shape)
     if len(classified_incorrect) != 0:
         figure.plot(classified_incorrect[:,0], classified_incorrect[:,1], classified_incorrect[:,2], incorrect_color_shape)
+
+def mse(prototypes, synapses, targets):
+    return (1/len(prototypes)) * sum([(targets[i] - np.matmul(synapses, prototypes[i]))**2 for i in range(len(prototypes))])
