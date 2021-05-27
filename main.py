@@ -157,10 +157,12 @@ if __name__ == '__main__':
             is_training = True if get_training_or_recall() == 0 else False
             data = get_data()
             if is_training:
-                if is_3D(data): svm_train_3D(data_files_train[data])
+                if data == 4:   svm_train_flowers(data_files_train[data])
+                elif is_3D(data): svm_train_3D(data_files_train[data])
                 else:           svm_train_2D(data_files_train[data])
             else:
-                if is_3D(data): svm_recall_3D(data_files_train[data])
+                if data == 4:   svm_recall_flowers(data_files_recall[data])
+                elif is_3D(data): svm_recall_3D(data_files_train[data])
                 else:           svm_recall_2D(data_files_train[data])
         elif algorithm == 9:
             print("Not implemented yet\n")
