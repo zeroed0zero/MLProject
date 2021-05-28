@@ -50,20 +50,6 @@ def adaline_train_2D(data_file, synapses, beta, epochs):
         update_mse_figure(mse_values, epoch_values, fig_ax4)
         synapses = adaline(prototypes_biased, synapses, targets, 1, beta, .1)
         plt.pause(0.01)
-    #from mlxtend.plotting import plot_decision_regions
-    #from mlxtend.classifier import Adaline
-    #import matplotlib.pyplot as plt
-    #data = read_csv(data_file, header=None)
-    #X = data[[0,1]].values
-    #y = np.ndarray.flatten(data[[2]].values)
-    #X[:,0] = (X[:,0] - X[:,0].mean()) / X[:,0].std()
-    #X[:,1] = (X[:,1] - X[:,1].mean()) / X[:,1].std()
-    #ada = Adaline(epochs=100, 
-    #              eta=0.0001, 
-    #              minibatches=None, print_progress=3)
-    #ada.fit(X, y)
-    #plot_decision_regions(X, y, clf=ada)
-    #plt.show() 
 
 def adaline_recall_2D(data_file, synapses, beta, epochs):
     print("Not implemented yet\n")

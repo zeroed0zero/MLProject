@@ -1,11 +1,11 @@
-from Src.perceptron import *
-from Src.adaline import *
-from Src.mlp import *
-from Src.svm import *
-from Src.hopfield import *
-from Src.common import *
 from Data.digits import *
 from Data.random_models import getRandomArray
+from Src.adaline import *
+from Src.common import *
+from Src.hopfield import *
+from Src.mlp import *
+from Src.perceptron import *
+from Src.svm import *
 
 def get_algorithms():
     ans = -1
@@ -77,14 +77,10 @@ def get_sync():
 
 is_3D = lambda v: True if v in [6,7] else False 
 
-data_files_train = ['Data/lin_sep.csv','Data/center.csv',
+data_files = ['Data/lin_sep.csv','Data/center.csv',
                     'Data/angle.csv','Data/xor.csv',
                     'Data/iris.data','Data/housing.data',
                     'Data/xor_3D.csv','Data/lin_sep_3D.csv']
-data_files_recall = ['Data/lin_sep_recall.csv','Data/center_recall.csv',
-                     'Data/angle_recall.csv','Data/xor_recall.csv',
-                     'Data/iris.data','Data/housing.data',
-                     'Data/xor_recall_3D.csv','Data/lin_sep_recall_3D.csv']
 
 if __name__ == '__main__':
     while True:
@@ -95,26 +91,26 @@ if __name__ == '__main__':
             beta = get_beta()
             epochs = get_epochs()
             if is_training:
-                if data == 4:     perceptron_flowers_train(data_files_train[data], beta, epochs)
-                elif is_3D(data): perceptron_train_3D(data_files_train[data], beta, epochs)
-                else:             perceptron_train_2D(data_files_train[data], beta, epochs)
+                if data == 4:     perceptron_flowers_train(data_files[data], beta, epochs)
+                elif is_3D(data): perceptron_train_3D(data_files[data], beta, epochs)
+                else:             perceptron_train_2D(data_files[data], beta, epochs)
             else:
-                if data == 4:     perceptron_flowers_recall(data_files_recall[data], beta, epochs)
-                elif is_3D(data): perceptron_recall_3D(data_files_train[data], data_files_recall[data], beta, epochs)
-                else:             perceptron_recall_2D(data_files_train[data], data_files_recall[data], beta, epochs)
+                if data == 4:     perceptron_flowers_recall(data_files[data], beta, epochs)
+                elif is_3D(data): perceptron_recall_3D(data_files[data], beta, epochs)
+                else:             perceptron_recall_2D(data_files[data], beta, epochs)
         elif algorithm == 1:
             is_training = True if get_training_or_recall() == 0 else False
             data = get_data()
             beta = get_beta()
             epochs = get_epochs()
             if is_training:
-                if data == 4:     adaline_flowers_train(data_files_train[data], beta, epochs)
-                elif is_3D(data): adaline_train_3D(data_files_train[data], beta, epochs)
-                else:             adaline_train_2D(data_files_train[data], beta, epochs)
+                if data == 4:     adaline_flowers_train(data_files[data], beta, epochs)
+                elif is_3D(data): adaline_train_3D(data_files[data], beta, epochs)
+                else:             adaline_train_2D(data_files[data], beta, epochs)
             else:
-                if data == 4:     adaline_flowers_recall(data_files_recall[data], beta, epochs)
-                elif is_3D(data): adaline_recall_3D(data_files_train[data], data_files_recall[data], beta, epochs)
-                else:             adaline_recall_2D(data_files_train[data], data_files_recall[data], beta, epochs)
+                if data == 4:     adaline_flowers_recall(data_files[data], beta, epochs)
+                elif is_3D(data): adaline_recall_3D(data_files[data], beta, epochs)
+                else:             adaline_recall_2D(data_files[data], beta, epochs)
         elif algorithm == 2:
             print("Not implemented yet\n")
             #is_training = True if get_training_or_recall() == 0 else False
@@ -122,24 +118,26 @@ if __name__ == '__main__':
             #beta = get_beta()
             #epochs = get_epochs()
             #if is_training:
-            #    if data == 4:     lsq_flowers_train(data_files_train[data], beta, epochs)
-            #    elif is_3D(data): lsq_train_3D(data_files_train[data], beta, epochs)
-            #    else:             lsq_train_2D(data_files_train[data], beta, epochs)
+            #    if data == 4:     lsq_flowers_train(data_files[data], beta, epochs)
+            #    elif is_3D(data): lsq_train_3D(data_files[data], beta, epochs)
+            #    else:             lsq_train_2D(data_files[data], beta, epochs)
             #else:
-            #    if data == 4:     lsq_flowers_recall(data_files_recall[data], beta, epochs)
-            #    elif is_3D(data): lsq_recall_3D(data_files_recall[data], beta, epochs)
-            #    else:             lsq_recall_2D(data_files_recall[data], beta, epochs)
+            #    if data == 4:     lsq_flowers_recall(data_files[data], beta, epochs)
+            #    elif is_3D(data): lsq_recall_3D(data_files[data], beta, epochs)
+            #    else:             lsq_recall_2D(data_files[data], beta, epochs)
         elif algorithm == 3:
             is_training = True if get_training_or_recall() == 0 else False
             data = get_data()
             beta = get_beta()
             epochs = get_epochs()
             if is_training:
-                if is_3D(data): mlp_train_3D(data_files_train[data], beta, epochs)
-                else:           mlp_train_2D(data_files_train[data], beta, epochs)
+                if data == 4:     mlp_train_flowers(data_files[data], beta, epochs)
+                elif is_3D(data): mlp_train_3D(data_files[data], beta, epochs)
+                else:             mlp_train_2D(data_files[data], beta, epochs)
             else:
-                if is_3D(data): mlp_recall_3D(data_files_train[data], data_files_recall[data], beta, epochs)
-                else:           mlp_recall_2D(data_files_train[data], data_files_recall[data], beta, epochs)
+                if data == 4:     mlp_recall_flowers(data_files[data], beta, epochs)
+                elif is_3D(data):   mlp_recall_3D(data_files[data], beta, epochs)
+                else:             mlp_recall_2D(data_files[data], beta, epochs)
         elif algorithm == 4:
             print("Not implemented yet\n")
         elif algorithm == 5:
@@ -157,13 +155,13 @@ if __name__ == '__main__':
             is_training = True if get_training_or_recall() == 0 else False
             data = get_data()
             if is_training:
-                if data == 4:   svm_train_flowers(data_files_train[data])
-                elif is_3D(data): svm_train_3D(data_files_train[data])
-                else:           svm_train_2D(data_files_train[data])
+                if data == 4:   svm_train_flowers(data_files[data])
+                elif is_3D(data): svm_train_3D(data_files[data])
+                else:           svm_train_2D(data_files[data])
             else:
-                if data == 4:   svm_recall_flowers(data_files_recall[data])
-                elif is_3D(data): svm_recall_3D(data_files_train[data])
-                else:           svm_recall_2D(data_files_train[data])
+                if data == 4:   svm_recall_flowers(data_files[data])
+                elif is_3D(data): svm_recall_3D(data_files[data])
+                else:           svm_recall_2D(data_files[data])
         elif algorithm == 9:
             print("Not implemented yet\n")
         elif algorithm == 10:
