@@ -3,6 +3,7 @@ from Data.random_models import getRandomArray
 from Src.adaline import *
 from Src.common import *
 from Src.hopfield import *
+from Src.least_squares import *
 from Src.mlp import *
 from Src.perceptron import *
 from Src.svm import *
@@ -112,19 +113,16 @@ if __name__ == '__main__':
                 elif is_3D(data): adaline_recall_3D(data_files[data], beta, epochs)
                 else:             adaline_recall_2D(data_files[data], beta, epochs)
         elif algorithm == 2:
-            print("Not implemented yet\n")
-            #is_training = True if get_training_or_recall() == 0 else False
-            #data = get_data()
-            #beta = get_beta()
-            #epochs = get_epochs()
-            #if is_training:
-            #    if data == 4:     lsq_flowers_train(data_files[data], beta, epochs)
-            #    elif is_3D(data): lsq_train_3D(data_files[data], beta, epochs)
-            #    else:             lsq_train_2D(data_files[data], beta, epochs)
-            #else:
-            #    if data == 4:     lsq_flowers_recall(data_files[data], beta, epochs)
-            #    elif is_3D(data): lsq_recall_3D(data_files[data], beta, epochs)
-            #    else:             lsq_recall_2D(data_files[data], beta, epochs)
+            is_training = True if get_training_or_recall() == 0 else False
+            data = get_data()
+            if is_training:
+                if data == 4:     lsq_flowers_train(data_files[data])
+                elif is_3D(data): lsq_train_3D(data_files[data])
+                else:             lsq_train_2D(data_files[data])
+            else:
+                if data == 4:     lsq_flowers_recall(data_files[data])
+                elif is_3D(data): lsq_recall_3D(data_files[data])
+                else:             lsq_recall_2D(data_files[data])
         elif algorithm == 3:
             is_training = True if get_training_or_recall() == 0 else False
             data = get_data()
