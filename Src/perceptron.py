@@ -73,7 +73,7 @@ def perceptron_recall_2D(data_file, beta, epochs):
     X_train, X_test, y_train, y_test = \
         train_test_split(X_biased, targets, test_size=.4, random_state=42)
 
-    synapses = perceptron(X_train, synapses, targets, epochs, beta, lambda v: 0 if v < 0 else 1)
+    synapses = perceptron(X_train, synapses, y_train, epochs, beta, lambda v: 0 if v < 0 else 1)
 
     y_test_predict = perceptron_outputs_act(X_test, synapses, lambda v: 0 if v < 0 else 1)
     ax.plot(list(range(len(y_test))), y_test, 'b.')
@@ -129,7 +129,7 @@ def perceptron_recall_3D(data_file, beta, epochs):
     X_train, X_test, y_train, y_test = \
         train_test_split(X_biased, targets, test_size=.4, random_state=42)
 
-    synapses = perceptron(X_train, synapses, targets, epochs, beta, lambda v: 0 if v < 0 else 1)
+    synapses = perceptron(X_train, synapses, y_train, epochs, beta, lambda v: 0 if v < 0 else 1)
 
     y_test_predict = perceptron_outputs_act(X_test, synapses, lambda v: 0 if v < 0 else 1)
     ax.plot(list(range(len(y_test))), y_test, 'b.')
@@ -231,7 +231,7 @@ def perceptron_flowers_recall(data_file, beta, epochs):
     p1 = perceptron_outputs(X_test, synapses_setosa)
     p2 = perceptron_outputs(X_test, synapses_versicolor)
     p3 = perceptron_outputs(X_test, synapses_virginica)
-    classes = [0, 1, 2]
+    classes = [1, 2, 3]
     y_test_predict = []
     for i in range(len(p1)):
         y_test_predict.append(classes[np.argmax([p1[i], p2[i], p3[i]])])

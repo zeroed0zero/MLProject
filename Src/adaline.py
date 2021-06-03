@@ -1,4 +1,5 @@
 from Src.common import *
+from Data.random_models import *
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 from pandas import read_csv
@@ -18,7 +19,7 @@ def adaline_outputs(prototypes, synapses):
 def adaline_outputs_act(prototypes, synapses, activation_func):
     return np.array([activation_func(np.matmul(synapses, p)) for p in prototypes])
 
-def adaline_train_2D(data_file, synapses, beta, epochs):
+def adaline_train_2D(data_file, beta, epochs):
     figure = plt.figure()
     gs = figure.add_gridspec(2, 2)
     fig_ax1 = figure.add_subplot(gs[0, 0])
@@ -29,6 +30,7 @@ def adaline_train_2D(data_file, synapses, beta, epochs):
     fig_ax4 = figure.add_subplot(gs[1, 1])
     figure.show()
 
+    synapses = getRandomArray(-.5, .5, 3)
     data = read_csv(data_file, header=None)
     prototypes = data[[0,1,2]].values
     targets = prototypes[:,2]
@@ -51,13 +53,13 @@ def adaline_train_2D(data_file, synapses, beta, epochs):
         synapses = adaline(prototypes_biased, synapses, targets, 1, beta, .1)
         plt.pause(0.01)
 
-def adaline_recall_2D(data_file, synapses, beta, epochs):
+def adaline_recall_2D(data_file, beta, epochs):
     print("Not implemented yet\n")
-def adaline_train_3D(data_file, synapses, beta, epochs):
+def adaline_train_3D(data_file, beta, epochs):
     print("Not implemented yet\n")
-def adaline_recall_3D(data_file, synapses, beta, epochs):
+def adaline_recall_3D(data_file, beta, epochs):
     print("Not implemented yet\n")
-def adaline_flowers_train(data_file, synapses, beta, epochs):
+def adaline_flowers_train(data_file, beta, epochs):
     print("Not implemented yet\n")
-def adaline_flowers_recall(data_file, synapses, beta, epochs):
+def adaline_flowers_recall(data_file, beta, epochs):
     print("Not implemented yet\n")
